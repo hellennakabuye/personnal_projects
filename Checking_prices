@@ -1,0 +1,42 @@
+import requests
+from bs4 import BeautifulSoup
+import smtplib
+import time
+
+
+smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+smtpserver.ehlo()
+smtpserver.starttls()
+smtpserver.ehlo()
+
+
+URL = 'URL OF THE PRODUCT YOU NEED TO MONITOR'
+
+
+def check_price():
+
+    headers = {
+        "User-Agent": "YOUR PC USER AGENT",
+        "Accept-encoding": None
+    }
+
+    page = requests.get(URL, headers=headers)
+
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    title = soup.find(class_='-fs20 -pts -pbxs').get_text()# Press f12 on the web page of the product you want to monitor, and get title class
+    price = soup.find(class_='-b -ltr -tal -fs24').get_text()Press f12 on the web page of the product you want to monitor, and get price class
+    converted_price = int(price[4:9].replace(",", ""))# slice the price to get only the figure, and remove commma if present, then turn it to integer
+
+    print(title.strip())
+    print(price.strip())
+    print(converted_price)
+
+    if converted_price < 7300: # if price lowers below this, send me an email
+        smtpserver.login("EMAIL_ADDRESS", "PASSWORD")
+        smtpserver.sendmail("FROM_EMAIL", "TO_EMAIL", "MESSAGE TO BE SENT")
+
+
+while True:
+    check_price()
+    time.sleep(21600) # checks every 6 hours
