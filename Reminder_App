@@ -4,12 +4,12 @@ from win10toast import ToastNotifier
 
 def timer(rem, secs):
     notificator = ToastNotifier()
-    notificator.show_toast("Reminder", f"""Alarm will go off in {secs}seconds""", duration=20)
+    notificator.show_toast("Reminder", f"""Alarm will go off in {secs}seconds""", duration=20)# This pops up before reminder
     notificator.show_toast("Reminder", rem, duration=20)
     #Alarm
     frequency = 2500
     duration = 1000
-    winsound.Beep(frequency, duration)
+    winsound.Beep(frequency, duration)# This produces the beep sound
 
 
 if __name__ == "__main__":
