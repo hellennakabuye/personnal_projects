@@ -1,0 +1,18 @@
+import winsound
+from win10toast import ToastNotifier
+
+
+def timer(rem, secs):
+    notificator = ToastNotifier()
+    notificator.show_toast("Reminder", f"""Alarm will go off in {secs}seconds""", duration=20)
+    notificator.show_toast("Reminder", rem, duration=20)
+    #Alarm
+    frequency = 2500
+    duration = 1000
+    winsound.Beep(frequency, duration)
+
+
+if __name__ == "__main__":
+    words=input("What do I remind you about? ")
+    times = int(input("Enter seconds: "))
+    timer(words, times)
